@@ -2,6 +2,10 @@
 
 This is a simple script that sets a random wallpaper from Unsplash.
 
+### NOTE!
+
+This app is not yet ready for use. It is still in development and only works on Windows machines!
+
 ### Features:
 
 -   Sets a random wallpaper from Unsplash
