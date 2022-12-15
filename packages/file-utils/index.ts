@@ -1,5 +1,5 @@
+import logger from "@splasher/logger";
 import fs from "fs/promises";
-import logger from "./Logger";
 
 export namespace FileUtils {
 	export async function readFileAsJSON<T>(path: string): Promise<T> {

@@ -1,8 +1,8 @@
-import { Config } from "./utils/ConfigManager";
-import { EntryManager } from "./utils/EntryManager";
-import logger from "./utils/Logger";
-import { Unsplash } from "./utils/Unsplash";
-import { Wallpaper } from "./utils/WallpaperManager";
+import { EntryManager } from "@splasher/entry-manager";
+import logger from "@splasher/logger";
+import { Unsplash } from "@splasher/unsplash-utils";
+import { Config } from "../../packages/config-manager";
+import { Wallpaper } from "../../packages/wallpaper-manager";
 
 async function main() {
 	// Get the config (if any)

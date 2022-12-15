@@ -1,0 +1,16 @@
+{
+	"name": "@splasher/logger",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc -w --preserveWatchOutput"
+	},
+	"devDependencies": {
+		"winston": "^3.2.1",
+		"@types/node": "^14.14.31"
+	}
+}

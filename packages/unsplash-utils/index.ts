@@ -1,8 +1,8 @@
+import logger from "@splasher/logger";
 import axios from "axios";
 import fs from "fs/promises";
 import path from "path";
 import { v4 as genUUID } from "uuid";
-import logger from "./Logger";
 
 export interface ImageMetadata {
 	readonly id: string;

@@ -1,4 +1,4 @@
-import { FileUtils } from "./FileUtils";
+import { FileUtils } from "@splasher/file-utils";
 export interface Entry {
 	readonly date: Date;
 	readonly filename: string;

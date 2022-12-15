@@ -1,6 +1,6 @@
+import logger from "@splasher/logger";
 import { execFile } from "child_process";
 import path from "path";
-import logger from "./Logger";
 
 export namespace Wallpaper {
 	export async function setWallpaper(
