@@ -1,33 +1,50 @@
-import ConfigManager from './ConfigManager';
-import Logger from './Logger';
-import RecManager from './RecManager';
-import WallpaperSaver from './WallpaperSaver';
-
-const cfgMgr = new ConfigManager('config.json');
+import { Config } from "./utils/ConfigManager";
+import { EntryManager } from "./utils/EntryManager";
+import logger from "./utils/Logger";
+import { Unsplash } from "./utils/Unsplash";
+import { Wallpaper } from "./utils/WallpaperManager";
 
 async function main() {
-	Logger.log('Getting config');
-	let config = await cfgMgr.getConfig();
+	// Get the config (if any)
+	let config = await Config.getConfig("./config.json");
 
-	if (config === null) {
-		Logger.warn('Config is empty, creating new config');
-		// Write new base config
-		const newConfig = ConfigManager.createEmptyConfig();
-		await cfgMgr.overrideConfig(newConfig);
+	// Override config with default config
+	if (!config) {
+		logger.error("Config not found, using default config");
+		await Config.overrideConfig("./config.json", Config.EMPTY_CONFIG);
 
-		// Config is now the base config
-		config = newConfig;
-	} else {
-		Logger.log('Loaded config');
+		config = Config.EMPTY_CONFIG;
+
+		logger.info("Default config saved");
 	}
 
-	// Instantiate other classes
-	const recMgr = new RecManager(config);
-	const wpMgr = new WallpaperSaver(config, recMgr);
+	// Get random image from unsplash
+	const link = Unsplash.getRandomImageFromUnsplash();
+	const pathToSave = config.image_path;
+	const savedImagePath = await Unsplash.downloadImageFromLink(link, pathToSave);
 
-	// Randomly get a wallpaper from unsplash
-	const imageURL = 'https://source.unsplash.com/random/1920x1080';
-	wpMgr.saveAndSetImageAsWallpaper(imageURL);
+	// Set the wallpaper
+	Wallpaper.setWallpaper(savedImagePath.path, config.binary_path);
+
+	// Read all entries
+
+	logger.info("Reading entries");
+	const entries = await EntryManager.readEntries(config.entries_path);
+	logger.info("Done reading entries");
+
+	// Save to entries
+	logger.info("Saving entry");
+	await EntryManager.insertNewEntry(
+		{
+			date: new Date(),
+			filename: savedImagePath.name,
+			path: savedImagePath.path,
+			size: savedImagePath.size,
+		},
+		entries,
+		config.entries_path
+	);
+	logger.info("Done saving entry");
 }
 
 // Starting point
